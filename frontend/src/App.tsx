@@ -7,6 +7,10 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <span className="flex justify-between p-6">
+        <h2 className="align-left font-medium">Task</h2>
+        <h2 className="font-medium align-right">Complete</h2>
+      </span>
       <TodoList
         todos={[
           { title: "Do Dishes", created_at: "08/04/2021", completed: false },

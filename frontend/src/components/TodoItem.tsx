@@ -11,16 +11,21 @@ export const TodoItem: React.FC<Todo> = ({
   return (
     <div className="group">
       <article
-        className="flex justify-between p-4 shadow-md group-hover:bg-blue-500 group-hover:text-white"
-        onMouseOver={() => {
-          console.log("Triggered");
+        className="flex justify-between p-6 justify-items-center shadow-md bg-white-900 group-hover:bg-blue-500 group-hover:text-white"
+        onClick={() => {
+          console.log("Toggle Completed");
         }}
       >
         <section>
           <h3 className="font-bold">{title}</h3>
           <p className="text-sm">{description}</p>
         </section>
-        <input type="checkbox" name="completed" defaultChecked={completed} />
+        <input
+          className="self-center justify-center"
+          type="checkbox"
+          name="completed"
+          defaultChecked={completed}
+        />
       </article>
     </div>
   );
