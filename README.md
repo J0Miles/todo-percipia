@@ -6,10 +6,10 @@ A todo application to show, create, and delete todo's
 Create '.ENV' file under *backend* root directory 
 
 >Example .Env file:
->PORT=
->DB_HOST=
->DB_USER=
->DB_PASS=
+>>PORT=
+>>DB_HOST=
+>>DB_USER=
+>>DB_PASS=
 
 ## Add Task
 - input text in textfield under **Item**
