@@ -30,4 +30,4 @@ Create '.ENV' file under *backend* root directory
 ### Workaround
 - Install Postman
 - add new DELETE request
-- set URL to http://localhost:8000/delete/{id} *Where id is the id of the task you want to delete*
+- set URL to http://localhost:8000/delete/id *Where id is the id of the task you want to delete*
