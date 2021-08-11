@@ -23,6 +23,6 @@ func main() {
 	error := http.ListenAndServe(":"+port, routes.Init())
 
 	if error != nil {
-		log.Fatal(err)
+		log.Fatal(error)
 	}
 }

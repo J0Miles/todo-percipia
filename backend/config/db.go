@@ -55,7 +55,6 @@ func Database() *sql.DB {
 		    id INT AUTO_INCREMENT,
 				title TEXT NOT NULL,
 				createdAt DATETIME,
-		    description TEXT,
 		    completed BOOLEAN DEFAULT FALSE,
 		    PRIMARY KEY (id)
 		);
