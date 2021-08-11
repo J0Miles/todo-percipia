@@ -2,81 +2,80 @@ package controllers
 
 import (
 	"fmt"
+	"html/template"
+	"log"
+	"net/http"
+	"time"
+
 	"github.com/J0Miles/todo-percipia/backend/config"
 	"github.com/J0Miles/todo-percipia/backend/models"
 	"github.com/gorilla/mux"
-	"html/template"
-	"net/http"
-	"time"
 )
 
 var (
-	id          int
-	title       string
-	description string
-	completed   bool
-	updated_at  time.Time
-	created_at  time.Time
-	view        = template.Must(template.ParseFiles("./views/index.html"))
-	database    = config.Database()
+	id         int
+	title      string
+	completed  bool
+	created_at time.Time
+	view       = template.Must(template.ParseFiles("./views/index.html"))
+	database   = config.Database()
 )
 
 func Show(w http.ResponseWriter, r *http.Request) {
+	// Query string to get all results
 	statement, err := database.Query(`SELECT * FROM todos`)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	var todos []models.Todo
 
+	// Scans for the given table columns from DB
 	for statement.Next() {
-		err = statement.Scan(&id, &title, &created_at, &description, &completed)
+		err = statement.Scan(&id, &title, &created_at, &completed)
 
 		if err != nil {
 			fmt.Println(err)
 		}
 
+		// Assigns db values to model
 		todo := models.Todo{
-			Id:          id,
-			Title:       title,
-			Description: description,
-			Updated_at:  time.Now(),
-			Created_at:  time.Now(),
-			Completed:   completed,
+			Id:         id,
+			Title:      title,
+			Updated_at: time.Now(),
+			Created_at: created_at,
+			Completed:  completed,
 		}
-
 		todos = append(todos, todo)
 	}
-
 	data := models.View{
 		Todos: todos,
 	}
-
-	fmt.Println(data)
-
 	_ = view.Execute(w, data)
+	fmt.Println(data)
 }
 
 func Add(w http.ResponseWriter, r *http.Request) {
-
+	// Attempting to insert multiple values into db exec
 	title := r.FormValue("title")
+
+	// Instantiate created_at time
 	createdAt := time.Now()
 
-	fmt.Println(createdAt)
-	fmt.Println(title)
-	_, err := database.Exec(`INSERT INTO todos (title) VALUE (?)`, title)
+	_, err := database.Exec(`INSERT INTO todos (title, createdAt) VALUES (?, ?)`, title, createdAt)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
-
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/", 303)
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
+	// This works when using postman. I believe on redirect this is getting overwritten by cached task list? Not sure
 	vars := mux.Vars(r)
 	id := vars["id"]
+	fmt.Println(id)
 
 	_, err := database.Exec(`DELETE FROM todos WHERE id = ?`, id)
 
@@ -84,12 +83,28 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/", 303)
+}
+
+func Update(w http.ResponseWriter, r *http.Request) {
+	// Takes in new title from form input
+	newTitle := r.FormValue("newTitle")
+	vars := mux.Vars(r)
+	id := vars["id"]
+	fmt.Println(newTitle)
+
+	_, err := database.Exec(`UPDATE todos SET title = ? WHERE id = ?`, newTitle, id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	http.Redirect(w, r, "/", 303)
 }
 
 func Complete(w http.ResponseWriter, r *http.Request) {
+	// Sets selected task to complete
 	vars := mux.Vars(r)
 	id := vars["id"]
+	fmt.Println(id)
 
 	_, err := database.Exec(`UPDATE todos SET completed = 1 WHERE id = ?`, id)
 
@@ -97,5 +112,5 @@ func Complete(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/", 303)
 }

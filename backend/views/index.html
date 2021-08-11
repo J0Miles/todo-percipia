@@ -47,18 +47,25 @@
                                 <td><strike>{{.Created_at}}</strike></td>
                                 <td>Completed</td>
                                 <td>
-                                    <button class="btn btn-primary" disabled>Complete</button>
-                                    <button class="btn btn-danger" disabled>Delete</button>
+                                    <a href="/complete/{{.Id}}"><button class="btn btn-primary" disabled>Complete</button>
+                                        <a href="/delete/{{.Id}}"><button class="btn btn-danger">Delete</button></a>
+                                        <a href="/update/{{.Id}}"><button class="btn btn-secondary" disabled>Edit</button></a>
                                 </td>
                             </tr>
                         {{else}}
                             <tr>
-                                <td>{{.Title}}</td>
+                                <td contenteditable="true">{{.Title}}</td>
                                 <td>{{.Created_at}}</td>
                                 <td>Not Completed</td>
                                 <td>
-                                    <a href="/complete/{{ .Id}}"><button class="btn btn-primary">Complete</button></a>
-                                    <a href="/delete/{{ .Id}}"><button class="btn btn-danger">Delete</button></a>
+                                    <a href="/complete/{{.Id}}"><button class="btn btn-primary">Complete</button></a>
+                                    <a href="/delete/{{.Id}}"><button class="btn btn-danger">Delete</button></a>
+                                    <div class="form-group">
+                                    <form action="/update/{{.Id}}" method="put">
+                        <input type="text" class="form-control" name="newTitle" placeholder="What would you like to rename it to?">
+                                    <a href="/update/{{.Id}}"><button class="btn btn-secondary">Update Title</button></a>
+                </form>
+                </div>
                                 </td>
                             </tr>
                         {{end}}
