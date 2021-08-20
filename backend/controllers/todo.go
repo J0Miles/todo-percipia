@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -21,7 +22,7 @@ var (
 	database   = config.Database()
 )
 
-func Show(w http.ResponseWriter, r *http.Request) {
+func GetAllTodos(w http.ResponseWriter, r *http.Request) {
 	// Query string to get all results
 	statement, err := database.Query(`SELECT * FROM todos`)
 
@@ -52,8 +53,21 @@ func Show(w http.ResponseWriter, r *http.Request) {
 	data := models.View{
 		Todos: todos,
 	}
-	_ = view.Execute(w, data)
 	fmt.Println(data)
+	fmt.Println(todos)
+	p, err := json.Marshal(todos)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(p))
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8000")
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(todos)
+	// return data
+	//	_ = view.Execute(w, data)
+	//fmt.Println(data)
+	// }
+
 }
 
 func Add(w http.ResponseWriter, r *http.Request) {

@@ -8,9 +8,9 @@ import (
 func Init() *mux.Router {
 	route := mux.NewRouter()
 
-	route.HandleFunc("/", controllers.Show)
+	route.HandleFunc("/todos", controllers.GetAllTodos).Methods("GET")
 	route.HandleFunc("/add", controllers.Add).Methods("POST")
-	route.HandleFunc("/delete/{id}", controllers.Delete).Methods("DELETE")
+	route.HandleFunc("/delete/{id}", controllers.Delete)
 	route.HandleFunc("/complete/{id}", controllers.Complete)
 	route.HandleFunc("/update/{id}", controllers.Update)
 
