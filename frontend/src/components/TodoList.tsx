@@ -3,12 +3,6 @@ import {Todo, AddTodoProps} from "../models/Todo";
 import {TodoItem} from "./TodoItem";
 import {TodoForm} from "./TodoForm";
 import {v4 as uuidv4} from "uuid";
-// import {data} from "../mocks/data";
-
-//type Props = {
-//  todos: Todo[];
-//};
-
 
 export const TodoList = () => {
   let data;
@@ -16,25 +10,11 @@ export const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [task, setTask] = useState("");
 
-    // fetch('http://localhost:8000/todos', {
-    //   method: 'GET'
-    // })
-    //   .then(async res => {
-    //     console.log(res)
-    //     data = res.json()
-    //     console.log(data);
-    //     setTodos(await data)
-    //   })
-    // console.log(todos);
-
-
   useEffect(() => {
     fetch('http://localhost:8001/todos', {
       method: 'GET'
     })
       .then(async res => {
-        // setTodos(await res.json())
-        // console.log(res)
         console.log(await res.body)
         data = res.json()
         console.log(data);
@@ -96,7 +76,4 @@ export const TodoList = () => {
     </div>
   );
 };
-function componentDidMount() {
-  throw new Error("Function not implemented.");
-}
 
