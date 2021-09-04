@@ -65,7 +65,9 @@ import {ReactComponent as PlusIcon} from "../assets/svg/plus.svg"
 export const TodoForm = ({
   handleSubmit,
   task,
+  description,
   handleChange,
+  handleDescription
 }: AddTodoProps) => (
   <form className="flex justify-between w-full p-4" onSubmit={handleSubmit}>
     <input
@@ -76,7 +78,16 @@ export const TodoForm = ({
       className="flex-1 p-2 mr-2 rounded shadow text-grey-dark"
       onChange={handleChange}
     />
-    <button className="w-12 h-12 p-3 rounded shadow-md hover:bg-blue-500" type="submit" aria-label="Add todo">
+
+    <input
+      type="text"
+      name="description"
+      value={description}
+      placeholder={"Enter description"}
+      className="flex-1 p-2 mr-2 rounded shadow text-grey-dark"
+      onChange={handleDescription}
+    />
+    <button className="w-12 h-12 p-3 rounded shadow-md hover:bg-blue-500" type="submit" aria-label="Add todo" onClick={handleSubmit}>
       <PlusIcon />
     </button>
   </form>

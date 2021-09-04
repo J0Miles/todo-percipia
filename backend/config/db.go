@@ -53,8 +53,9 @@ func Database() *sql.DB {
 	_, err = database.Exec(`
 		CREATE TABLE todos (
 		    id INT AUTO_INCREMENT,
-				title TEXT NOT NULL,
-				createdAt DATETIME,
+				title varchar(30) NOT NULL,
+				description varchar(255),
+				created_at DATETIME,
 		    completed BOOLEAN DEFAULT FALSE,
 		    PRIMARY KEY (id)
 		);

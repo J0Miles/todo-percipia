@@ -1,11 +1,13 @@
 import {ChangeEvent, FormEvent} from "react"
 export type Todo = {
-  id: string;
+  Id: number;
   title: string;
   description?: string;
   created_at: Date;
   updated_at?: string;
-  completed: boolean;
+  Completed: boolean;
+  toggleComplete?: any;
+  deleteTask?: (id: number) => void;
 }
 
 export type TodoProps = {
@@ -16,6 +18,13 @@ export type TodoProps = {
 
 export type AddTodoProps = {
   task: string
+  description: string
   handleSubmit: (e: FormEvent) => void
   handleChange: (e: ChangeEvent) => void
+  handleDescription: (e: ChangeEvent) => void
+}
+
+export type UpdateTodoProps = {
+  id: number
+  setCompleted: () => void;
 }
